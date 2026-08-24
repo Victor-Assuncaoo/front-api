@@ -1,0 +1,283 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f1e8;
+    color: #242424;
+    padding: 0 25px 60px;
+}
+
+/* CABEÇALHO */
+
+body::before {
+    content: "POSTLAB";
+    display: block;
+    margin: 0 -25px 55px;
+    padding: 22px 7%;
+    background: #ff5c35;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 3px;
+}
+
+h1 {
+    max-width: 1100px;
+    margin: 0 auto 40px;
+    font-size: 48px;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -2px;
+}
+
+/* FORMULÁRIO */
+
+#formulario {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: #ffffff;
+    border: 3px solid #242424;
+    box-shadow: 12px 12px 0 #242424;
+}
+
+#formulario::before {
+    content: "CRIAR NOVO POST";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: #ffd447;
+    font-size: 32px;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.1;
+}
+
+.campo {
+    grid-column: 2;
+    margin: 0;
+    padding: 18px 30px 0;
+}
+
+.campo:first-of-type {
+    padding-top: 35px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.campo input,
+.campo textarea {
+    width: 100%;
+    border: 2px solid #242424;
+    background: #f8f8f8;
+    padding: 14px;
+    font-family: inherit;
+    font-size: 15px;
+    color: #242424;
+    outline: none;
+}
+
+.campo input {
+    height: 48px;
+}
+
+.campo textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+    background: #fff8d8;
+    box-shadow: 5px 5px 0 #242424;
+}
+
+#btn-submit {
+    grid-column: 2;
+    margin: 25px 30px 35px;
+    padding: 17px;
+    border: 3px solid #242424;
+    background: #242424;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#btn-submit:hover {
+    background: #ff5c35;
+    border-color: #ff5c35;
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 #242424;
+}
+
+#btn-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* LOADING */
+
+#loading {
+    max-width: 1100px;
+    margin: 50px auto 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* ERRO */
+
+#error-msg {
+    max-width: 1100px;
+    margin: 35px auto;
+    padding: 18px;
+    background: #ff5c35;
+    border: 3px solid #242424;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* ÁREA DOS POSTS */
+
+#posts-container {
+    max-width: 1100px;
+    margin: 80px auto 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+#posts-container::before {
+    content: "ÚLTIMAS PUBLICAÇÕES";
+    grid-column: 1 / -1;
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+
+#posts-container > div {
+    position: relative;
+    min-height: 220px;
+    padding: 30px;
+    background: #ffffff;
+    border: 3px solid #242424;
+    box-shadow: 7px 7px 0 #242424;
+    transition: 0.2s;
+}
+
+#posts-container > div:nth-child(odd) {
+    background: #d9f4ed;
+}
+
+#posts-container > div:nth-child(even) {
+    background: #ffffff;
+}
+
+#posts-container > div:hover {
+    transform: translateY(-6px);
+    box-shadow: 12px 12px 0 #242424;
+}
+
+#posts-container h3 {
+    margin-bottom: 18px;
+    font-size: 24px;
+    line-height: 1.2;
+    font-weight: 900;
+}
+
+#posts-container p {
+    color: #4b4b4b;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+#posts-container hr {
+    display: none;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 750px) {
+
+    body {
+        padding: 0 15px 40px;
+    }
+
+    body::before {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    h1 {
+        font-size: 36px;
+        margin-bottom: 30px;
+    }
+
+    #formulario {
+        display: block;
+        box-shadow: 7px 7px 0 #242424;
+    }
+
+    #formulario::before {
+        min-height: 130px;
+        padding: 25px;
+    }
+
+    .campo {
+        padding: 18px 25px 0 !important;
+    }
+
+    #btn-submit {
+        margin: 25px;
+        width: calc(100% - 50px);
+    }
+
+    #posts-container {
+        grid-template-columns: 1fr;
+        margin-top: 60px;
+    }
+
+    #posts-container::before {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 450px) {
+
+    h1 {
+        font-size: 30px;
+    }
+
+    #formulario::before {
+        font-size: 25px;
+    }
+
+    #posts-container > div {
+        padding: 22px;
+    }
+
+    #posts-container h3 {
+        font-size: 20px;
+    }
+}

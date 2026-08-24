@@ -1,31 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1>Pessoas da API</h1>
-  <form id="formulario">
-    <div class="campo">
-      <label for="nome">Nome:</label>
-      <input type="text" id="nome" placeholder="Digite o nome">
-    </div>
-    <div class="campo">
-      <label for="idade">Idade:</label>
-      <input type="number" id="idade" placeholder="Digite a idade">
-    </div>
-    <div class="campo">
-      <label for="email">Email:</label>
-      <input type="email" id="email" placeholder="Digite o email">
-    </div>
-    <button type="submit" id="btn-submit">Adicinar Pessoa</button>
-  </form>
-  
-  <div id="pessoas"></div>
-<script src="script.js"></script>
+<html lang="pt-BR">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro de Posts</title>
+<link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+    <h1>Cadastro de Posts</h1>
+
+    <form id="formulario">
+
+        <div class="campo">
+            <label for="titulo">Título do post:</label>
+            <input
+                type="text"
+                id="titulo"
+                placeholder="Digite o título do post"
+            >
+        </div>
+
+        <div class="campo">
+            <label for="corpo">Conteúdo do post:</label>
+            <textarea
+                id="corpo"
+                placeholder="Digite o conteúdo do post"
+                rows="6"
+            ></textarea>
+        </div>
+
+        <button type="submit" id="btn-submit">
+            Publicar Post
+        </button>
+
+    </form>
+
+    <div id="loading" style="display: none;">
+        Carregando...
+    </div>
+
+    <div id="error-msg" style="display: none;"></div>
+
+    <div id="posts-container"></div>
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>

@@ -1,74 +1,95 @@
-const form = document.getElementById('formulario');
+const formulario = document.querySelector('#formulario');
+const indicador = document.querySelector('#loading');
+const alertaErro = document.querySelector('#error-msg');
+const botao = document.querySelector('#btn-submit');
+const listaPosts = document.querySelector('#posts-container');
 
+const ENDPOINT = 'https://jsonplaceholder.typicode.com/posts';
 
+function exibirLoading(ativo) {
+    indicador.style.display = ativo ? 'block' : 'none';
+    alertaErro.style.display = 'none';
+}
 
+function exibirErro(texto) {
+    alertaErro.innerText = `❌ ${texto}`;
+    alertaErro.style.display = 'block';
+}
 
-const renderList = (pessoas) => {
-    const pessoasContainer = document.getElementById('pessoas');
-    pessoasContainer.innerHTML = '';
-    console.log('Pessoas recebidas:', pessoas);
-    pessoas.forEach((pessoa) => {
-        const pessoaElement = document.createElement('div');
-        pessoaElement.textContent = `Nome: ${pessoa.nome}, Idade: ${pessoa.idade}`;
-        pessoasContainer.appendChild(pessoaElement);
-    });
-};
+async function carregarLista() {
+    exibirLoading(true);
 
-const buscaPessoas = async () => {
     try {
-        const response = await fetch('http://localhost:3001/pessoa');
-        if (!response.ok) {
-            throw new Error('Erro na requisição: ' + response.status);
-        }
-        const data = await response.json();
+        const requisicao = await axios.get(`${ENDPOINT}?_limit=5`);
 
-        renderList(data);
-    } 
-    catch (error) {
-        console.error('Erro ao buscar pessoas:', error);
-    
+        listaPosts.innerHTML = '';
+
+        requisicao.data.forEach(item => {
+            const card = document.createElement('div');
+
+            card.innerHTML = `
+                <h3>${item.title}</h3>
+                <p>${item.body}</p>
+                <hr>
+            `;
+
+            listaPosts.appendChild(card);
+        });
+
+    } catch (erro) {
+        exibirErro('Não foi possível carregar os posts.');
+        console.error(erro);
+    } finally {
+        exibirLoading(false);
     }
-    };
+}
 
-    
-        buscaPessoas();
+async function cadastrarPost(dados) {
+    exibirLoading(true);
 
-    async function enviarPessoa(pessoa) {
-        try {
-            const response = await fetch('http://localhost:3001/pessoa', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(pessoa),
-            });
-            if (!response.ok) {
-                throw new Error('Erro na requisição: ' + response.status);
-            }
-            const data = await response.json();
-            console.log('Pessoa enviada com sucesso:', data);
-            buscaPessoas(); // Atualiza a lista após enviar a pessoa
-        } catch (error) {
-            console.error('Erro ao enviar pessoa:', error);
-        }
+    try {
+        const resultado = await axios.post(ENDPOINT, dados);
+
+        console.log('Resposta da API:', resultado.data);
+
+        alert('Post enviado com sucesso!');
+
+        formulario.reset();
+
+    } catch (erro) {
+        exibirErro('Erro ao enviar o post.');
+        console.error(erro);
+    } finally {
+        exibirLoading(false);
     }
+}
 
+formulario.addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-    form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const btnSubmit = document.getElementById('btn-submit');
-    btnSubmit.disable = true;
-    const nome = document.getElementById('nome').value;
-    const idade = document.getElementById('idade').value;
-    const email = document.getElementById('email').value;
-    if (!nome || !idade || !email) {
-        alert('Por favor, preencha todos os campos.');
-        btnSubmit.disable = false;
+    botao.disabled = true;
+
+    const tituloDigitado = document.querySelector('#titulo').value.trim();
+    const conteudoDigitado = document.querySelector('#corpo').value.trim();
+
+    if (tituloDigitado === '' || conteudoDigitado === '') {
+        exibirErro('Preencha todos os campos.');
+        botao.disabled = false;
         return;
     }
-    const pessoa = { nome, idade, email };
-    await enviarPessoa(pessoa);
-    form.reset();
 
+    const dadosPost = {
+        title: tituloDigitado,
+        body: conteudoDigitado,
+        userId: 1
+    };
+
+    await cadastrarPost(dadosPost);
+
+    botao.disabled = false;
 });
+
+window.onload = () => {
+    carregarLista();
+};
 
